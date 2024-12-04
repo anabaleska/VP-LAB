@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/events/add" method="post">
+    <div>
+        <h2>Add new event</h2>
+        <label>Name: </label><input type="text" name="eventName" th:value="(${event} != null ? ${event.getName()} : '')">
+        <label>Description: </label><input type="text" name="eventDescription" th:value="(${event} != null ? ${event.getDescription()} : '')">
+        <label>Popularity score: </label><input type="text" name="popularityScore" th:value="(${event} != null ? ${event.getPopularityScore()} : '')">
+        <label>Location ID:
+            <select name="locationId">
+                <option th:if="${event} != null"
+                        th:selected="${event.getLocation() != null && event.getId() == location.getId()}"
+                        th:each="location : ${locations}"
+                        th:text="${location.getName()}"
+                        th:value="${location.getId()}">
+                </option>
+                <option th:if="${event} == null"
+                        th:each="location : ${locations}"
+                        th:text="${location.getName()}"
+                        th:value="${location.getId()}">
+                </option>
+            </select>
+        </label>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+</body>
+</html>
