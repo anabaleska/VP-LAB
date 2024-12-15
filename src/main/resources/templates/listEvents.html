@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Event Booking page - Welcome and choose an Event</title>
@@ -10,6 +10,7 @@
         }
     </style>
 </head>
+
 <body>
 <header>
     <h1>Welcome to our Event Booking App</h1>
@@ -24,8 +25,8 @@
     <h2>Choose an event:</h2>
     <form th:action="@{/eventBooking/confirmation}" th:method="post">
         <div th:each="event : ${events}">
-            <input name="eventName" type="radio"
-                   th:value="${event.name}">
+            <input name="eventId" type="radio"
+                   th:value="${event.id}">
             <label>
                 Name: <span th:text="${event.name}"></span><br/>
                 Description: <span th:text="${event.description}"></span><br/>
@@ -33,12 +34,11 @@
                 Location: <span th:text="${event.location.name}"></span><br/>
             </label>
 
-<!--            <form th:action="@{'/events/delete/{id}'(id=${event.getId()})}" th:method="post">-->
-<!--                <button type="submit">Delete</button>-->
-<!--            </form>-->
-<!--            <button type="button" th:onclick="|window.location.href='/events/delete/' + ${event.getId()}|">Delete</button>-->
-            <button type="button"><a th:href="@{'/events/delete/{id}' (id=${event.getId()})}">Delete</a></button>
-            <button type="submit"><a th:href="@{'/events/edit/{eventId}' (eventId=${event.getId()})}">Edit</a></button>
+            <div sec:authorize="isAuthenticated() and hasRole('ROLE_ADMIN')">
+                <button type="button"><a th:href="@{'/events/delete/{id}' (id=${event.getId()})}">Delete</a></button>
+                <button type="submit"><a th:href="@{'/events/edit/{eventId}' (eventId=${event.getId()})}">Edit</a></button>
+            </div>
+
             <button type="submit"><a th:href="@{'/events/detail/{eventId}' (eventId=${event.getId()})}">Details</a></button>
 
         </div>
@@ -51,7 +51,9 @@
             <input type="submit" value="Submit">
         </div>
     </form>
-    <a href="/events/add-event">Add Event</a>
+    <a href="/events/add-event" sec:authorize="isAuthenticated() and hasRole('ROLE_ADMIN')">Add Event</a>
+
 </main>
 </body>
+<!--</div>-->
 </html>

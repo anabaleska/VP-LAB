@@ -52,4 +52,9 @@ public class EventServiceImpl implements EventService {
         eventRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<Event> findByName(String name) {
+       return eventRepository.findByName(name);
+    }
+
 }

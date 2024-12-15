@@ -13,4 +13,6 @@ public interface EventService {
     Event saveEvent(String name, String description, double popularityScore, Long locationId);
     Optional<Event> findById(Long id);
     public void delete(Long id);
+    Optional<Event> findByName(String name);
+
 }

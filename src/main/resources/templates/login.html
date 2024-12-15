@@ -5,11 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/login}" th:method="POST">
-    <label>Name: <input name="name" type="text" ></label>
-    <br/><br/>
-    <input name="submit" type="submit" value="submit">
-</form>
 
+<form th:action="@{/login}" th:method="POST">
+    <label>Username: <input type="text" name="username"></label><br/>
+    <label>Password: <input type="password" name="password"></label><br/>
+    <input type="submit" th:value="submit">
+
+    <div th:if="${hasError}">
+        <div th:text="${error}"></div>
+    </div>
+</form>
 </body>
 </html>

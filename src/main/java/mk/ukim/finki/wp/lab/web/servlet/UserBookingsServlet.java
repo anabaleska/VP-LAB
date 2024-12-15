@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import mk.ukim.finki.wp.lab.repository.impl.inMemoryEventBookingRepository;
+import mk.ukim.finki.wp.lab.service.EventBookingService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebExchange;
@@ -17,8 +17,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/userBookings")
 public class UserBookingsServlet extends HttpServlet {
     public final SpringTemplateEngine springTemplateEngine;
-    public final inMemoryEventBookingRepository eventBookingRepository;
-    public UserBookingsServlet(SpringTemplateEngine springTemplateEngine, inMemoryEventBookingRepository eventBookingRepository) {
+    public final EventBookingService eventBookingRepository;
+    public UserBookingsServlet(SpringTemplateEngine springTemplateEngine, EventBookingService eventBookingRepository) {
         this.springTemplateEngine = springTemplateEngine;
         this.eventBookingRepository = eventBookingRepository;
     }
@@ -33,7 +33,7 @@ public class UserBookingsServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         String name = (String) session.getAttribute("name");
-        context.setVariable("eventBookings", eventBookingRepository.findByAttendee(name));
+        context.setVariable("eventBookings", eventBookingRepository.findByAttendeeName(name));
         springTemplateEngine.process("userBookings.html", context, resp.getWriter());
     }
 
